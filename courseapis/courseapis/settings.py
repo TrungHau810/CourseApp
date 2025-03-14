@@ -40,7 +40,22 @@ INSTALLED_APPS = [
     'courses.apps.CoursesConfig',
     'ckeditor',
     'ckeditor_uploader',
+    'rest_framework',
+    'drf_yasg',
 ]
+
+import cloudinary
+import cloudinary.uploader
+from cloudinary.utils import cloudinary_url
+
+# Configuration
+cloudinary.config(
+    cloud_name = "tthau2004",
+    api_key = "372274126191375",
+    api_secret = "Abk-RA6C6MUKDV34nOuFDhpLFjs", # Click 'View API Keys' above to copy your API secret
+    secure=True
+)
+
 
 AUTH_USER_MODEL = 'courses.User'
 
