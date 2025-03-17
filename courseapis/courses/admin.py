@@ -19,7 +19,7 @@ class MyCourseAdmin(admin.ModelAdmin):
     readonly_fields = ['image_view']
 
     def image_view(self, course):
-        return mark_safe(f"<img src='/static/{course.image.name}' width=200 />")
+        return mark_safe(f"<img src='https://res.cloudinary.com/tthau2004/{course.image}' width=200 />")
 
 class MyLessonAdmin(admin.ModelAdmin):
     form = LessonForm
@@ -27,7 +27,7 @@ class MyLessonAdmin(admin.ModelAdmin):
 
 
 class CourseAppAdminSite(admin.AdminSite):
-    site_header = 'Hệ thống khoá học trực tuyến'
+    site_header = 'Hệ thống quản trị khoá học trực tuyến'
 
 
 admin_site = CourseAppAdminSite(name='myadmin')

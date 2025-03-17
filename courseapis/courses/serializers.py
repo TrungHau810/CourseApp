@@ -1,4 +1,3 @@
-from django.template.base import tag_re
 from rest_framework.serializers import ModelSerializer
 from courses.models import Category, Lesson, Course, Tag, Comment, Like, User
 
@@ -42,13 +41,28 @@ class LessonDetailSerializer(LessonSerializer):
         fields = LessonSerializer.Meta.fields + ['content', 'tags']
 
 
-class CommentSerializer(ItemSerializer):
-    class Meta:
-        model = Comment
-        fields = ['id', 'content', 'created_date', 'user_id']
-
-
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'avatar']
+        fields = ['username', 'password', 'first_name', 'last_name', 'avatar']
+        extra_kwargs = {
+            'password': {
+                'write_only': True
+            }
+        }
+
+    def create(self, validated_data):
+        data = validated_data.copy()
+        u = User(**data)
+        u.set_password(u.password)
+        u.save()
+
+        return u
+
+
+class CommentSerializer(ModelSerializer):
+    user = UserSerializer
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'created_date', 'user_id']
