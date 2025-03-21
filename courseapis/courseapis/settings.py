@@ -42,7 +42,12 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'rest_framework',
     'drf_yasg',
+    'oauth2_provider',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('oauth2_provider.contrib.rest_framework.OAuth2Authentication',)
+}
 
 import cloudinary
 import cloudinary.uploader
@@ -50,12 +55,11 @@ from cloudinary.utils import cloudinary_url
 
 # Configuration
 cloudinary.config(
-    cloud_name = "tthau2004",
-    api_key = "372274126191375",
-    api_secret = "Abk-RA6C6MUKDV34nOuFDhpLFjs", # Click 'View API Keys' above to copy your API secret
+    cloud_name="tthau2004",
+    api_key="372274126191375",
+    api_secret="Abk-RA6C6MUKDV34nOuFDhpLFjs",  # Click 'View API Keys' above to copy your API secret
     secure=True
 )
-
 
 AUTH_USER_MODEL = 'courses.User'
 
@@ -105,7 +109,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'coursedb',
         'USER': 'root',
-        'PASSWORD': 'Admin@123',
+        'PASSWORD': 'root',
         'HOST': ''  # mặc định localhost
     }
 }
@@ -148,3 +152,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+OAUTH2_PROVIDER = {'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'}
+
+CLIENT_ID = "ORcpfsFmYUqbDmKOWsLL6RFWkoaJElWkmt51TJC7"
+CLIENT_SECRET = "vWUreQDuFmsd0LQR4Fca6a1H6UB6kNeNtTrZsxouDHHzFTywMS19FR2ixrX456IlbV0rBmFM0FbkivTAoirXHHMXAl3OawnZma8GQR47hiQaQh7c0GGGbLqyIdZEnar0"
