@@ -1,4 +1,4 @@
-import { FlatList, Image, Text, View } from "react-native";
+import { FlatList, Text, View, Image, TouchableOpacity } from "react-native";
 import MyStyles from "../../styles/MyStyles";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Chip, List, Searchbar } from "react-native-paper";
@@ -8,7 +8,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Home = () => {
     const [categories, setCategories] = useState([]);
     const [courses, setCourses] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState([true]);
+    const [q, setQ] = useState();
+    const [page, setPage] = useState(1);
+    const [cateId, setCateId] = useState(null);
+
 
     const loadCates = async () => {
         let res = await Apis.get(endpoints['categories']);
@@ -18,44 +22,69 @@ const Home = () => {
     const loadCourses = async () => {
         try {
             setLoading(true);
+
             let url = `${endpoints['courses']}?page=${page}`;
-            
-            if (q){
-                url=`${url}?q=${q}`;
+
+            if (q) {
+                url = `${url}&q=${q}`;
             }
 
-            let res = await Apis.get(endpoints['courses']);
+            if (cateId) {
+                url = `${url}&category_id=${cateId}`;
+            }
+
+            let res = await Apis.get(url);
             setCourses(res.data.results);
-        } catch {
+
+        } catch (error) {
+            console.log(error)
 
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
     }
 
+
     useEffect(() => {
-        loadCates();
+        let timer = setTimeout(() => {
+            loadCates();
+        }, 500);
+
+        return () => clearTimeout(timer);
     }, []);
 
     useEffect(() => {
         loadCourses();
-    }, []);
+    }, [q, page, cateId])
+
+    const loadMore = () => {
+        if (!loading && page > 0) {
+            setPage(page + 1);
+        }
+    }
+
 
     return (
-        <SafeAreaView style={MyStyles.conntainer}>
-            <Text style={MyStyles.subject}>DANH SÁCH KHÓA HỌC</Text>
+        <SafeAreaView style={[MyStyles.container, MyStyles.p]}>
             <View style={[MyStyles.row, MyStyles.wrap]}>
-                {categories.map(c => <Chip key={c.id} icon="label" style={MyStyles.m}>{c.name}</Chip>)}
+                <TouchableOpacity>
+                    <Chip icon="label" style={MyStyles.m} onPress={() => setCateId(null)}>Tất cả</Chip>
+                </TouchableOpacity>
+                {categories.map(c => <TouchableOpacity key={c.id} onPress={() => setCateId(c.id)}>
+                    <Chip icon="label" style={MyStyles.m}>{c.name}</Chip>
+                </TouchableOpacity>)}
             </View>
 
-            <Searchbar
-                placeholder="Search"
-                // onChangeText={setQ}
-                // value={q}
-            />
+            <Searchbar placeholder="Tìm khóa học..." value={q} onChangeText={setQ} />
 
-            {/* <FlatList ListFooterComponent={loading && <ActivityIndicator />} data={courses} renderItem={({ item }) => <List.Item key={item.id} title={item.subject} description={item.created_date}
-                left={() => <Image style={MyStyles.avatar} source={{ uri: item.image }} />} />} /> */}
+            <FlatList onEndReached={loadMore} ListFooterComponent={loading && <ActivityIndicator size={30} />} data={courses} renderItem={({ item }) =>
+                <List.Item title={item.subject} description={item.created_date} left={() =>
+                    <TouchableOpacity>
+                        <Image style={MyStyles.avatar} source={{ uri: item.image }} />
+                    </TouchableOpacity>
+                }>
+                </List.Item>}>
+            </FlatList>
 
         </SafeAreaView>
     );

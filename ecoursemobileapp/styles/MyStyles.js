@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-    conntainer: {
+    container: {
         flex: 1
     }, subject: {
         fontSize: 30,
@@ -17,5 +17,7 @@ export default StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 50
-    }
+    }, p: {
+        padding: 10
+    },
 });
