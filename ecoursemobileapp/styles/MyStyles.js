@@ -13,11 +13,11 @@ export default StyleSheet.create({
         flexWrap: "wrap"
     }, m: {
         margin: 5
-    }, avatar:{
+    }, p: {
+        padding: 5
+    }, avatar: {
         width: 80,
         height: 80,
         borderRadius: 50
-    }, p: {
-        padding: 10
-    },
+    }
 });
