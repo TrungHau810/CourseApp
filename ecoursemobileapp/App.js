@@ -5,6 +5,7 @@ import Login from "./components/User/Login";
 import { Icon } from "react-native-paper";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Lesson from "./components/Home/Lesson";
+import Register from "./components/User/Register";
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
@@ -19,9 +20,10 @@ const StackNavigator = () => {
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
+    <Tab.Navigator screenOptions={{headerShown: true}}>
       <Tab.Screen name="home" component={StackNavigator} options={{tabBarIcon: () => <Icon size={30} source="home" />}} />
       <Tab.Screen name="login" component={Login} options={{title: 'Đăng nhập', tabBarIcon: () => <Icon size={30} source="account" />}} />
+      <Tab.Screen name="register" component={Register} options={{title: 'Đăng ký', tabBarIcon: () => <Icon size={30} source="account-plus" />}} />
     </Tab.Navigator>
   )
 }

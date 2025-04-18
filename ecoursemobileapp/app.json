@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ecoursemobileappv1",
-    "slug": "ecoursemobileappv1",
+    "name": "ecoursemobileapp",
+    "slug": "ecoursemobileapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
